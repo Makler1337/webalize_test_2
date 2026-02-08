@@ -11,7 +11,7 @@ export default async function FAQPage({
 }) {
   const { locale } = await params
   const dict = getDictionary(locale)
-  const faqs = await getFAQs(locale)
+  const faqs = await getFAQs()
 
   // Group FAQs by category
   const grouped = faqs.reduce(
@@ -36,10 +36,10 @@ export default async function FAQPage({
           {items.map((faq) => (
             <details key={faq.id} style={{ marginBottom: '12px', padding: '12px', border: '1px solid #ddd' }}>
               <summary style={{ cursor: 'pointer', fontWeight: 'bold' }}>
-                {faq.question}
+                {String(faq[`question_${locale}`] ?? faq.question_en)}
               </summary>
               <div style={{ marginTop: '8px' }}>
-                {faq.answer && <RichText data={faq.answer} />}
+                <RichText data={faq[`answer_${locale}`] ?? faq.answer_en} />
               </div>
             </details>
           ))}

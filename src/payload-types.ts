@@ -94,10 +94,10 @@ export interface Config {
   db: {
     defaultIDType: number;
   };
-  fallbackLocale: ('false' | 'none' | 'null') | false | null | ('en' | 'cs') | ('en' | 'cs')[];
+  fallbackLocale: null;
   globals: {};
   globalsSelect: {};
-  locale: 'en' | 'cs';
+  locale: null;
   user: User;
   jobs: {
     tasks: unknown;
@@ -172,38 +172,13 @@ export interface Media {
  */
 export interface News {
   id: number;
-  title: string;
   slug: string;
-  excerpt?: string | null;
   image?: (number | null) | Media;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  category?: string | null;
-  publishedDate?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "faq".
- */
-export interface Faq {
-  id: number;
-  question: string;
-  answer: {
+  readTime: '5min' | '10min' | '30min' | '1hour' | '2hours';
+  publishedDate: string;
+  title_en: string;
+  description_en: string;
+  content_en: {
     root: {
       type: string;
       children: {
@@ -218,8 +193,66 @@ export interface Faq {
     };
     [k: string]: unknown;
   };
+  title_de: string;
+  description_de: string;
+  content_de: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faq".
+ */
+export interface Faq {
+  id: number;
   category: string;
   order?: number | null;
+  question_en: string;
+  answer_en: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  question_de: string;
+  answer_de: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -229,11 +262,13 @@ export interface Faq {
  */
 export interface Integration {
   id: number;
-  name: string;
-  description: string;
   logo?: (number | null) | Media;
   category?: string | null;
   link?: string | null;
+  name_en: string;
+  description_en: string;
+  name_de: string;
+  description_de: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -384,13 +419,16 @@ export interface MediaSelect<T extends boolean = true> {
  * via the `definition` "news_select".
  */
 export interface NewsSelect<T extends boolean = true> {
-  title?: T;
   slug?: T;
-  excerpt?: T;
   image?: T;
-  content?: T;
-  category?: T;
+  readTime?: T;
   publishedDate?: T;
+  title_en?: T;
+  description_en?: T;
+  content_en?: T;
+  title_de?: T;
+  description_de?: T;
+  content_de?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -399,10 +437,12 @@ export interface NewsSelect<T extends boolean = true> {
  * via the `definition` "faq_select".
  */
 export interface FaqSelect<T extends boolean = true> {
-  question?: T;
-  answer?: T;
   category?: T;
   order?: T;
+  question_en?: T;
+  answer_en?: T;
+  question_de?: T;
+  answer_de?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -411,11 +451,13 @@ export interface FaqSelect<T extends boolean = true> {
  * via the `definition` "integrations_select".
  */
 export interface IntegrationsSelect<T extends boolean = true> {
-  name?: T;
-  description?: T;
   logo?: T;
   category?: T;
   link?: T;
+  name_en?: T;
+  description_en?: T;
+  name_de?: T;
+  description_de?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -16,13 +16,14 @@ export const Integrations: CollectionConfig = {
       admin: { position: 'sidebar' },
     },
     {
-      name: 'category',
-      type: 'text',
-      admin: { position: 'sidebar' },
-    },
-    {
-      name: 'link',
-      type: 'text',
+      name: 'platform',
+      type: 'select',
+      required: true,
+      options: [
+        { label: 'Truck OEMs', value: 'truck-oems' },
+        { label: 'Telematics', value: 'telematics' },
+        { label: 'TMS', value: 'tms' },
+      ],
       admin: { position: 'sidebar' },
     },
     {

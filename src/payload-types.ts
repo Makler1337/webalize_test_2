@@ -263,8 +263,7 @@ export interface Faq {
 export interface Integration {
   id: number;
   logo?: (number | null) | Media;
-  category?: string | null;
-  link?: string | null;
+  platform: 'truck-oems' | 'telematics' | 'tms';
   name_en: string;
   description_en: string;
   name_de: string;
@@ -278,9 +277,30 @@ export interface Integration {
  */
 export interface ContactSubmission {
   id: number;
-  name: string;
+  fullName: string;
   email: string;
-  message: string;
+  companyName: string;
+  phoneNumber: string;
+  preferredDate: string;
+  preferredTime:
+    | '09:00'
+    | '09:30'
+    | '10:00'
+    | '10:30'
+    | '11:00'
+    | '11:30'
+    | '12:00'
+    | '12:30'
+    | '13:00'
+    | '13:30'
+    | '14:00'
+    | '14:30'
+    | '15:00'
+    | '15:30'
+    | '16:00'
+    | '16:30'
+    | '17:00';
+  privacyAccepted: boolean;
   updatedAt: string;
   createdAt: string;
 }
@@ -452,8 +472,7 @@ export interface FaqSelect<T extends boolean = true> {
  */
 export interface IntegrationsSelect<T extends boolean = true> {
   logo?: T;
-  category?: T;
-  link?: T;
+  platform?: T;
   name_en?: T;
   description_en?: T;
   name_de?: T;
@@ -466,9 +485,13 @@ export interface IntegrationsSelect<T extends boolean = true> {
  * via the `definition` "contact-submissions_select".
  */
 export interface ContactSubmissionsSelect<T extends boolean = true> {
-  name?: T;
+  fullName?: T;
   email?: T;
-  message?: T;
+  companyName?: T;
+  phoneNumber?: T;
+  preferredDate?: T;
+  preferredTime?: T;
+  privacyAccepted?: T;
   updatedAt?: T;
   createdAt?: T;
 }

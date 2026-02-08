@@ -39,6 +39,7 @@ export const News: CollectionConfig = {
       name: 'publishedDate',
       type: 'date',
       required: true,
+      defaultValue: () => new Date().toISOString(),
       admin: { position: 'sidebar' },
     },
     {

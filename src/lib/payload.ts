@@ -46,9 +46,13 @@ export async function getIntegrations() {
 }
 
 export async function createContactSubmission(data: {
-  name: string
+  fullName: string
   email: string
-  message: string
+  companyName: string
+  phoneNumber: string
+  preferredDate: string
+  preferredTime: string
+  privacyAccepted: boolean
 }) {
   const payload = await getPayloadClient()
   return payload.create({

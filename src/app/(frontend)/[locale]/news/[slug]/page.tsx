@@ -57,7 +57,7 @@ export default async function NewsPostPage({
 
       {relatedNews.length > 0 && (
         <div style={{ marginTop: '48px', borderTop: '1px solid #ddd', paddingTop: '24px' }}>
-          <h2>{dict.news.relatedPosts}</h2>
+          <h2>{dict.news.otherPosts}</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px' }}>
             {relatedNews.map((related) => (
               <Link key={related.id} href={`/${locale}/news/${related.slug}`} style={{ textDecoration: 'none', color: 'inherit', border: '1px solid #ddd', borderRadius: '12px', overflow: 'hidden' }}>

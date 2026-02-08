@@ -12,19 +12,22 @@ export default async function NewsPostPage({
 }) {
   const { locale, slug } = await params
   const dict = getDictionary(locale)
-  const article = await getNewsBySlug(slug, locale)
+  const article = await getNewsBySlug(slug)
 
   if (!article) {
     notFound()
   }
 
-  const allNews = await getNews(locale)
+  const title = String(article[`title_${locale}`] ?? article.title_en)
+  const content = article[`content_${locale}`] ?? article.content_en
+
+  const allNews = await getNews()
   const relatedNews = allNews.filter((n) => n.id !== article.id).slice(0, 3)
 
   return (
     <div style={{ padding: '32px' }}>
       <Link href={`/${locale}/news`}>← {dict.nav.news}</Link>
-      <h1 style={{ marginTop: '16px' }}>{article.title}</h1>
+      <h1 style={{ marginTop: '16px' }}>{title}</h1>
       {article.publishedDate && (
         <p style={{ color: '#666' }}>
           {new Date(article.publishedDate).toLocaleDateString(locale)}
@@ -35,7 +38,7 @@ export default async function NewsPostPage({
         <p>[Image: {article.image.alt}]</p>
       )}
       <div style={{ marginTop: '24px' }}>
-        {article.content && <RichText data={article.content} />}
+        {content && <RichText data={content} />}
       </div>
 
       {relatedNews.length > 0 && (
@@ -44,7 +47,7 @@ export default async function NewsPostPage({
           {relatedNews.map((related) => (
             <div key={related.id} style={{ marginBottom: '16px' }}>
               <Link href={`/${locale}/news/${related.slug}`}>
-                {related.title}
+                {String(related[`title_${locale}`] ?? related.title_en)}
               </Link>
             </div>
           ))}

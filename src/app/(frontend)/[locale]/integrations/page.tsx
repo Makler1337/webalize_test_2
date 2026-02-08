@@ -10,7 +10,7 @@ export default async function IntegrationsPage({
 }) {
   const { locale } = await params
   const dict = getDictionary(locale)
-  const integrations = await getIntegrations(locale)
+  const integrations = await getIntegrations()
 
   // Group integrations by category
   const grouped = integrations.reduce(
@@ -39,8 +39,8 @@ export default async function IntegrationsPage({
                 {integration.logo && typeof integration.logo === 'object' && (
                   <p>[Logo: {integration.logo.alt}]</p>
                 )}
-                <h3>{integration.name}</h3>
-                <p>{integration.description}</p>
+                <h3>{String(integration[`name_${locale}`] ?? integration.name_en)}</h3>
+                <p>{String(integration[`description_${locale}`] ?? integration.description_en)}</p>
                 {integration.link && (
                   <a href={integration.link} target="_blank" rel="noopener noreferrer">
                     Learn more →

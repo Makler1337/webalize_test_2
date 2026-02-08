@@ -10,7 +10,7 @@ export default async function NewsPage({
 }) {
   const { locale } = await params
   const dict = getDictionary(locale)
-  const news = await getNews(locale)
+  const news = await getNews()
 
   return (
     <div style={{ padding: '32px' }}>
@@ -21,10 +21,10 @@ export default async function NewsPage({
           <article key={article.id} style={{ marginBottom: '24px', padding: '16px', border: '1px solid #ddd' }}>
             <h2>
               <Link href={`/${locale}/news/${article.slug}`}>
-                {article.title}
+                {String(article[`title_${locale}`] ?? article.title_en)}
               </Link>
             </h2>
-            {article.excerpt && <p>{article.excerpt}</p>}
+            {article[`excerpt_${locale}`] && <p>{String(article[`excerpt_${locale}`])}</p>}
             {article.category && <span>Category: {article.category}</span>}
             {article.publishedDate && (
               <p style={{ color: '#666' }}>

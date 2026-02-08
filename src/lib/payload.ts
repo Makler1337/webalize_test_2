@@ -1,26 +1,23 @@
 import { getPayload } from 'payload'
 import config from '@/payload.config'
-import type { Locale } from '@/i18n/config'
 
 async function getPayloadClient() {
   return getPayload({ config: await config })
 }
 
-export async function getNews(locale: Locale) {
+export async function getNews() {
   const payload = await getPayloadClient()
   const news = await payload.find({
     collection: 'news',
-    locale,
     sort: '-publishedDate',
   })
   return news.docs
 }
 
-export async function getNewsBySlug(slug: string, locale: Locale) {
+export async function getNewsBySlug(slug: string) {
   const payload = await getPayloadClient()
   const news = await payload.find({
     collection: 'news',
-    locale,
     where: {
       slug: { equals: slug },
     },
@@ -29,22 +26,20 @@ export async function getNewsBySlug(slug: string, locale: Locale) {
   return news.docs[0] ?? null
 }
 
-export async function getFAQs(locale: Locale) {
+export async function getFAQs() {
   const payload = await getPayloadClient()
   const faqs = await payload.find({
     collection: 'faq',
-    locale,
     sort: 'order',
     limit: 100,
   })
   return faqs.docs
 }
 
-export async function getIntegrations(locale: Locale) {
+export async function getIntegrations() {
   const payload = await getPayloadClient()
   const integrations = await payload.find({
     collection: 'integrations',
-    locale,
     limit: 100,
   })
   return integrations.docs

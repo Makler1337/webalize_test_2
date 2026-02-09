@@ -21,7 +21,7 @@ export default async function NewsPostPage({
 }) {
   const { locale, slug } = await params
   const dict = getDictionary(locale)
-  const missingTranslation = locale === 'de' ? 'fehlende Übersetzung' : 'missing translation'
+  const missingTranslation = dict.common.missingTranslation
   const article = await getNewsBySlug(slug, locale)
 
   if (!article) {

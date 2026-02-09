@@ -9,7 +9,6 @@ export default async function FAQPage({ params }: { params: Promise<{ locale: Lo
   const dict = getDictionary(locale)
   const faqs = await getFAQs(locale)
 
-  // Group FAQs by category
   const grouped = faqs.reduce(
     (acc, faq) => {
       const category = faq.category || 'General'

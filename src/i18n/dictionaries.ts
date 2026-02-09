@@ -2,6 +2,9 @@ import type { Locale } from './config'
 
 const dictionaries = {
   en: {
+    common: {
+      missingTranslation: 'missing translation',
+    },
     nav: {
       home: 'Home',
       news: 'News',
@@ -23,7 +26,8 @@ const dictionaries = {
     },
     contact: {
       title: 'Book a Call',
-      subtitle: 'Please let us know of your most convenient time and our team will get back to you shortly!',
+      subtitle:
+        'Please let us know of your most convenient time and our team will get back to you shortly!',
       fullName: 'Full name',
       fullNamePlaceholder: 'Enter your full name',
       email: 'Email',
@@ -40,6 +44,9 @@ const dictionaries = {
     },
   },
   de: {
+    common: {
+      missingTranslation: 'fehlende Übersetzung',
+    },
     nav: {
       home: 'Startseite',
       news: 'Nachrichten',
@@ -61,7 +68,8 @@ const dictionaries = {
     },
     contact: {
       title: 'Anruf buchen',
-      subtitle: 'Bitte teilen Sie uns Ihre bevorzugte Zeit mit und unser Team wird sich in Kuerze bei Ihnen melden!',
+      subtitle:
+        'Bitte teilen Sie uns Ihre bevorzugte Zeit mit und unser Team wird sich in Kuerze bei Ihnen melden!',
       fullName: 'Vollstaendiger Name',
       fullNamePlaceholder: 'Geben Sie Ihren vollstaendigen Namen ein',
       email: 'E-Mail',

@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { getNews } from '@/lib/payload'
 import { getDictionary } from '@/i18n/dictionaries'
 import type { Locale } from '@/i18n/config'
+import Image from 'next/image'
 
 const readTimeLabels: Record<string, string> = {
   '5min': '5 min',
@@ -16,7 +17,7 @@ export default async function NewsPage({ params }: { params: Promise<{ locale: L
   const dict = getDictionary(locale)
   const news = await getNews(locale)
 
-  const missingTranslation = locale === 'de' ? 'fehlende Übersetzung' : 'missing translation'
+  const missingTranslation = dict.common.missingTranslation
 
   return (
     <div style={{ padding: '32px' }}>
@@ -39,9 +40,11 @@ export default async function NewsPage({ params }: { params: Promise<{ locale: L
             style={{ border: '1px solid #ddd', borderRadius: '12px', overflow: 'hidden' }}
           >
             {article.image && typeof article.image === 'object' && article.image.url && (
-              <img
+              <Image
                 src={article.image.url}
                 alt={article.image.alt}
+                width={300}
+                height={200}
                 style={{ width: '100%', height: '200px', objectFit: 'cover' }}
               />
             )}

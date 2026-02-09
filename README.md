@@ -1,55 +1,48 @@
 # Webalize
 
-Marketing website and CMS for Webalize, built with [Payload 3](https://payloadcms.com/) and Next.js 15.
+Next.js + Payload CMS app.
 
-## Stack
+## Run locally
 
-- **CMS**: Payload 3.x
-- **Framework**: Next.js 15 (App Router)
-- **Database**: PostgreSQL via `@payloadcms/db-postgres`
-- **i18n**: English and German (`/en`, `/de`) using Payload's built-in localization
-
-## Collections
-
-- **News** — Blog posts with localized title, description, and rich text content
-- **FAQ** — Frequently asked questions grouped by category
-- **Integrations** — Partner integrations (Truck OEMs, Telematics, TMS)
-- **Contact Submissions** — Demo booking form submissions
-- **Media** — Image uploads
-- **Users** — Admin authentication
-
-## Local Setup
-
-1. Clone the repo and install dependencies:
+1. Install packages
 
 ```bash
 pnpm install
 ```
 
-2. Copy `.env.example` to `.env` and fill in:
+2. Configure env
 
-```
+Copy `.env.example` to `.env` and set at least:
+
+```bash
 DATABASE_URL=postgresql://user:pass@localhost:5432/webalize
 PAYLOAD_SECRET=your-secret-here
 ```
 
-3. Start the dev server:
+3. Start
 
 ```bash
 pnpm dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) — you'll be redirected to `/en`
-5. Go to [http://localhost:3000/admin](http://localhost:3000/admin) to create your first admin user
+4. Test
 
-## Scripts
+```bash
+pnpm test:e2e:install OR just npx playwright install chromium without it your tests won't run
+pnpm test:e2e
+```
 
-| Command               | Description                    |
-| --------------------- | ------------------------------ |
-| `pnpm dev`            | Start development server       |
-| `pnpm build`          | Production build               |
-| `pnpm test:int`       | Run integration tests (Vitest) |
-| `pnpm test:e2e`       | Run E2E tests (Playwright)     |
-| `pnpm generate:types` | Regenerate `payload-types.ts`  |
-| `pnpm lint`           | Lint with ESLint               |
-| `pnpm format`         | Format with Prettier           |
+Frontend: http://localhost:3000 (redirects to `/en`)
+Admin: http://localhost:3000/admin
+
+## Useful commands
+
+```bash
+pnpm dev
+pnpm build
+pnpm test:int
+pnpm test:e2e
+pnpm generate:types
+pnpm lint
+pnpm format
+```

@@ -12,7 +12,7 @@ export default async function IntegrationsPage({
   const dict = getDictionary(locale)
   const integrations = await getIntegrations(locale)
 
-  const missingTranslation = locale === 'de' ? 'fehlende Übersetzung' : 'missing translation'
+  const missingTranslation = dict.common.missingTranslation
 
   const mapped = integrations.map((integration) => ({
     id: integration.id,

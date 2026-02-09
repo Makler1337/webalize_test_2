@@ -15,7 +15,7 @@ pnpm install
 Copy `.env.example` to `.env` and set at least:
 
 ```bash
-DATABASE_URL=postgresql://user:pass@localhost:5432/webalize
+DATABASE_URL=your-data-base-url
 PAYLOAD_SECRET=your-secret-here
 ```
 

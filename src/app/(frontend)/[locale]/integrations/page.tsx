@@ -12,20 +12,26 @@ export default async function IntegrationsPage({
   const dict = getDictionary(locale)
   const integrations = await getIntegrations(locale)
 
-  const mapped = integrations.map((i) => ({
-    id: i.id,
-    name: String(i.name),
-    description: String(i.description),
-    platform: i.platform ?? '',
-    logoUrl: i.logo && typeof i.logo === 'object' ? (i.logo.url ?? undefined) : undefined,
-    logoAlt: i.logo && typeof i.logo === 'object' ? i.logo.alt : undefined,
+  const missingTranslation = locale === 'de' ? 'fehlende Übersetzung' : 'missing translation'
+
+  const mapped = integrations.map((integration) => ({
+    id: integration.id,
+    name: integration.name ?? missingTranslation,
+    description: integration.description ?? missingTranslation,
+    platform: integration.platform,
+    logoUrl:
+      integration.logo && typeof integration.logo === 'object'
+        ? (integration.logo.url ?? undefined)
+        : undefined,
+    logoAlt:
+      integration.logo && typeof integration.logo === 'object' ? integration.logo.alt : undefined,
   }))
 
   return (
     <div style={{ padding: '32px' }}>
       <h1 style={{ textAlign: 'center' }}>{dict.integrations.title}</h1>
       <p style={{ textAlign: 'center' }}>{dict.integrations.subtitle}</p>
-      <IntegrationsFilter integrations={mapped} locale={locale} />
+      <IntegrationsFilter integrations={mapped} />
     </div>
   )
 }

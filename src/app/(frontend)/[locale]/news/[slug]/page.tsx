@@ -21,6 +21,7 @@ export default async function NewsPostPage({
 }) {
   const { locale, slug } = await params
   const dict = getDictionary(locale)
+  const missingTranslation = locale === 'de' ? 'fehlende Übersetzung' : 'missing translation'
   const article = await getNewsBySlug(slug, locale)
 
   if (!article) {
@@ -44,7 +45,7 @@ export default async function NewsPostPage({
         {article.readTime && ` – ${readTimeLabels[article.readTime] ?? article.readTime}`}
       </p>
 
-      <h1 style={{ marginTop: '8px' }}>{article.title}</h1>
+      <h1 style={{ marginTop: '8px' }}>{article.title ?? missingTranslation}</h1>
 
       {article.image && typeof article.image === 'object' && article.image.url && (
         <Image
@@ -57,7 +58,7 @@ export default async function NewsPostPage({
       )}
 
       <div style={{ marginTop: '24px' }}>
-        {article.content && <RichText data={article.content} />}
+        {article.content ? <RichText data={article.content} /> : <p>{missingTranslation}</p>}
       </div>
 
       {relatedNews.length > 0 && (
@@ -92,7 +93,7 @@ export default async function NewsPostPage({
                   />
                 )}
                 <div style={{ padding: '12px' }}>
-                  <p style={{ fontWeight: 'bold' }}>{related.title}</p>
+                  <p style={{ fontWeight: 'bold' }}>{related.title ?? missingTranslation}</p>
                 </div>
               </Link>
             ))}

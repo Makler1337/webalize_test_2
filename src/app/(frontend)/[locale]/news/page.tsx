@@ -16,6 +16,8 @@ export default async function NewsPage({ params }: { params: Promise<{ locale: L
   const dict = getDictionary(locale)
   const news = await getNews(locale)
 
+  const missingTranslation = locale === 'de' ? 'fehlende Übersetzung' : 'missing translation'
+
   return (
     <div style={{ padding: '32px' }}>
       <h1>{dict.news.title}</h1>
@@ -53,8 +55,8 @@ export default async function NewsPage({ params }: { params: Promise<{ locale: L
                   })}
                 {article.readTime && ` – ${readTimeLabels[article.readTime] ?? article.readTime}`}
               </p>
-              <h2 style={{ margin: '8px 0' }}>{article.title}</h2>
-              <p>{article.description}</p>
+              <h2 style={{ margin: '8px 0' }}>{article.title ?? missingTranslation}</h2>
+              <p>{article.description ?? missingTranslation}</p>
               <Link
                 href={`/${locale}/news/${article.slug}`}
                 style={{

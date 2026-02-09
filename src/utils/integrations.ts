@@ -1,8 +1,10 @@
+import type { Integration as PayloadIntegration } from '@/payload-types'
+
 export type Integration = {
   id: number | string
   name: string
   description: string
-  platform: string
+  platform: PayloadIntegration['platform']
   logoUrl?: string
   logoAlt?: string
 }
@@ -10,7 +12,7 @@ export type Integration = {
 export function filterIntegrations(
   items: Integration[],
   search: string,
-  platform: string | null,
+  platform: PayloadIntegration['platform'] | null,
 ): Integration[] {
   return items.filter((item) => {
     const matchesSearch = !search || item.name.toLowerCase().includes(search.toLowerCase())

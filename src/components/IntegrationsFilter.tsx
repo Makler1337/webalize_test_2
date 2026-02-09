@@ -1,24 +1,23 @@
 'use client'
 
 import { useState } from 'react'
-import type { Locale } from '@/i18n/config'
 import { filterIntegrations, type Integration } from '@/utils/integrations'
+import Image from 'next/image'
 
-const platforms = [
+type PlatformOption = {
+  label: string
+  value: Integration['platform']
+}
+
+const platforms: PlatformOption[] = [
   { label: 'Truck OEMs', value: 'truck-oems' },
   { label: 'Telematics', value: 'telematics' },
   { label: 'TMS', value: 'tms' },
 ]
 
-export function IntegrationsFilter({
-  integrations,
-  locale,
-}: {
-  integrations: Integration[]
-  locale: Locale
-}) {
+export function IntegrationsFilter({ integrations }: { integrations: Integration[] }) {
   const [search, setSearch] = useState('')
-  const [activePlatform, setActivePlatform] = useState<string | null>(null)
+  const [activePlatform, setActivePlatform] = useState<Integration['platform'] | null>(null)
 
   const filtered = filterIntegrations(integrations, search, activePlatform)
 
@@ -29,7 +28,7 @@ export function IntegrationsFilter({
           type="text"
           placeholder="Search an integration"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(event) => setSearch(event.target.value)}
           style={{ width: '100%', maxWidth: '400px', padding: '8px' }}
         />
       </div>
@@ -45,17 +44,19 @@ export function IntegrationsFilter({
         >
           All
         </button>
-        {platforms.map((p) => (
+        {platforms.map((platform) => (
           <button
-            key={p.value}
-            onClick={() => setActivePlatform(activePlatform === p.value ? null : p.value)}
+            key={platform.value}
+            onClick={() =>
+              setActivePlatform(activePlatform === platform.value ? null : platform.value)
+            }
             style={{
               padding: '6px 16px',
               border: '1px solid #ccc',
-              fontWeight: activePlatform === p.value ? 'bold' : 'normal',
+              fontWeight: activePlatform === platform.value ? 'bold' : 'normal',
             }}
           >
-            {p.label}
+            {platform.label}
           </button>
         ))}
       </div>
@@ -80,10 +81,12 @@ export function IntegrationsFilter({
             }}
           >
             {integration.logoUrl && (
-              <img
+              <Image
                 src={integration.logoUrl}
                 alt={integration.logoAlt ?? ''}
-                style={{ width: '48px', height: '48px', objectFit: 'contain' }}
+                width={48}
+                height={48}
+                style={{ objectFit: 'contain' }}
               />
             )}
             <div>

@@ -13,6 +13,7 @@ export async function getNews(locale: Locale) {
     collection: 'news',
     sort: '-publishedDate',
     locale,
+    fallbackLocale: false,
   })
   return news.docs
 }
@@ -26,6 +27,7 @@ export async function getNewsBySlug(slug: string, locale: Locale) {
     },
     limit: 1,
     locale,
+    fallbackLocale: false,
   })
   return news.docs[0] ?? null
 }
@@ -47,6 +49,7 @@ export async function getIntegrations(locale: Locale) {
     collection: 'integrations',
     limit: 100,
     locale,
+    fallbackLocale: false,
   })
   return integrations.docs
 }

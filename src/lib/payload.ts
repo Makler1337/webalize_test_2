@@ -1,5 +1,6 @@
 import { getPayload } from 'payload'
 import config from '@/payload.config'
+import type { ContactSubmission } from '@/payload-types'
 
 async function getPayloadClient() {
   return getPayload({ config: await config })
@@ -45,15 +46,18 @@ export async function getIntegrations() {
   return integrations.docs
 }
 
-export async function createContactSubmission(data: {
-  fullName: string
-  email: string
-  companyName: string
-  phoneNumber: string
-  preferredDate: string
-  preferredTime: string
-  privacyAccepted: boolean
-}) {
+export async function createContactSubmission(
+  data: Pick<
+    ContactSubmission,
+    | 'fullName'
+    | 'email'
+    | 'companyName'
+    | 'phoneNumber'
+    | 'preferredDate'
+    | 'preferredTime'
+    | 'privacyAccepted'
+  >,
+) {
   const payload = await getPayloadClient()
   return payload.create({
     collection: 'contact-submissions',

@@ -2,15 +2,7 @@
 
 import { useState } from 'react'
 import type { Locale } from '@/i18n/config'
-
-type Integration = {
-  id: number | string
-  name: string
-  description: string
-  platform: string
-  logoUrl?: string
-  logoAlt?: string
-}
+import { filterIntegrations, type Integration } from '@/utils/integrations'
 
 const platforms = [
   { label: 'Truck OEMs', value: 'truck-oems' },
@@ -28,11 +20,7 @@ export function IntegrationsFilter({
   const [search, setSearch] = useState('')
   const [activePlatform, setActivePlatform] = useState<string | null>(null)
 
-  const filtered = integrations.filter((item) => {
-    const matchesSearch = !search || item.name.toLowerCase().includes(search.toLowerCase())
-    const matchesPlatform = !activePlatform || item.platform === activePlatform
-    return matchesSearch && matchesPlatform
-  })
+  const filtered = filterIntegrations(integrations, search, activePlatform)
 
   return (
     <div>
@@ -49,7 +37,11 @@ export function IntegrationsFilter({
       <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginTop: '24px' }}>
         <button
           onClick={() => setActivePlatform(null)}
-          style={{ padding: '6px 16px', border: '1px solid #ccc', fontWeight: !activePlatform ? 'bold' : 'normal' }}
+          style={{
+            padding: '6px 16px',
+            border: '1px solid #ccc',
+            fontWeight: !activePlatform ? 'bold' : 'normal',
+          }}
         >
           All
         </button>
@@ -57,18 +49,42 @@ export function IntegrationsFilter({
           <button
             key={p.value}
             onClick={() => setActivePlatform(activePlatform === p.value ? null : p.value)}
-            style={{ padding: '6px 16px', border: '1px solid #ccc', fontWeight: activePlatform === p.value ? 'bold' : 'normal' }}
+            style={{
+              padding: '6px 16px',
+              border: '1px solid #ccc',
+              fontWeight: activePlatform === p.value ? 'bold' : 'normal',
+            }}
           >
             {p.label}
           </button>
         ))}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginTop: '32px' }}>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: '16px',
+          marginTop: '32px',
+        }}
+      >
         {filtered.map((integration) => (
-          <div key={integration.id} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '16px', border: '1px solid #ccc' }}>
+          <div
+            key={integration.id}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              padding: '16px',
+              border: '1px solid #ccc',
+            }}
+          >
             {integration.logoUrl && (
-              <img src={integration.logoUrl} alt={integration.logoAlt ?? ''} style={{ width: '48px', height: '48px', objectFit: 'contain' }} />
+              <img
+                src={integration.logoUrl}
+                alt={integration.logoAlt ?? ''}
+                style={{ width: '48px', height: '48px', objectFit: 'contain' }}
+              />
             )}
             <div>
               <strong>{integration.name}</strong>
@@ -78,7 +94,9 @@ export function IntegrationsFilter({
         ))}
       </div>
 
-      {filtered.length === 0 && <p style={{ textAlign: 'center', marginTop: '24px' }}>No integrations found.</p>}
+      {filtered.length === 0 && (
+        <p style={{ textAlign: 'center', marginTop: '24px' }}>No integrations found.</p>
+      )}
     </div>
   )
 }

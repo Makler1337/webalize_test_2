@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getNewsBySlug, getNews } from '@/lib/payload'
@@ -37,35 +38,64 @@ export default async function NewsPostPage({
       <Link href={`/${locale}/news`}>← {dict.nav.news}</Link>
 
       <p style={{ color: '#666', marginTop: '16px' }}>
-        {article.publishedDate && new Date(article.publishedDate).toLocaleDateString(locale, { year: 'numeric', month: 'short', day: 'numeric' })}
+        {article.publishedDate &&
+          new Date(article.publishedDate).toLocaleDateString(locale, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          })}
         {article.readTime && ` – ${readTimeLabels[article.readTime] ?? article.readTime}`}
       </p>
 
       <h1 style={{ marginTop: '8px' }}>{title}</h1>
 
       {article.image && typeof article.image === 'object' && article.image.url && (
-        <img
+        <Image
           src={article.image.url}
           alt={article.image.alt}
-          style={{ width: '100%', borderRadius: '12px', marginTop: '24px' }}
+          width={800}
+          height={400}
+          style={{ width: '100%', height: 'auto', marginTop: '24px' }}
         />
       )}
 
-      <div style={{ marginTop: '24px' }}>
-        {content && <RichText data={content} />}
-      </div>
+      <div style={{ marginTop: '24px' }}>{content && <RichText data={content} />}</div>
 
       {relatedNews.length > 0 && (
         <div style={{ marginTop: '48px', borderTop: '1px solid #ddd', paddingTop: '24px' }}>
           <h2>{dict.news.otherPosts}</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px' }}>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+              gap: '16px',
+            }}
+          >
             {relatedNews.map((related) => (
-              <Link key={related.id} href={`/${locale}/news/${related.slug}`} style={{ textDecoration: 'none', color: 'inherit', border: '1px solid #ddd', borderRadius: '12px', overflow: 'hidden' }}>
+              <Link
+                key={related.id}
+                href={`/${locale}/news/${related.slug}`}
+                style={{
+                  textDecoration: 'none',
+                  color: 'inherit',
+                  border: '1px solid #ddd',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                }}
+              >
                 {related.image && typeof related.image === 'object' && related.image.url && (
-                  <img src={related.image.url} alt={related.image.alt} style={{ width: '100%', height: '120px', objectFit: 'cover' }} />
+                  <Image
+                    src={related.image.url}
+                    alt={related.image.alt}
+                    width={200}
+                    height={120}
+                    style={{ width: '100%', height: '120px', objectFit: 'cover' }}
+                  />
                 )}
                 <div style={{ padding: '12px' }}>
-                  <p style={{ fontWeight: 'bold' }}>{String(related[`title_${locale}`] ?? related.title_en)}</p>
+                  <p style={{ fontWeight: 'bold' }}>
+                    {String(related[`title_${locale}`] ?? related.title_en)}
+                  </p>
                 </div>
               </Link>
             ))}

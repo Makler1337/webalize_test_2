@@ -33,6 +33,7 @@ export function ContactModal({ dict }: { dict: Dictionary['contact'] }) {
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: 1000,
+        backgroundColor: '#fff',
       }}
       onClick={(e) => {
         if (e.target === e.currentTarget) {
@@ -41,7 +42,15 @@ export function ContactModal({ dict }: { dict: Dictionary['contact'] }) {
         }
       }}
     >
-      <div style={{ padding: '32px', minWidth: '500px', border: '1px solid #ccc' }}>
+      <div
+        style={{
+          padding: '32px',
+          minWidth: '500px',
+          border: '1px solid #ccc',
+          backgroundColor: '#fff',
+          boxShadow: '0 12px 30px rgba(0, 0, 0, 0.15)',
+        }}
+      >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <h2>{dict.title}</h2>
           <button

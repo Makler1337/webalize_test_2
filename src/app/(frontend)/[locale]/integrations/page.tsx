@@ -10,14 +10,14 @@ export default async function IntegrationsPage({
 }) {
   const { locale } = await params
   const dict = getDictionary(locale)
-  const integrations = await getIntegrations()
+  const integrations = await getIntegrations(locale)
 
   const mapped = integrations.map((i) => ({
     id: i.id,
-    name: String(i[`name_${locale}`] ?? i.name_en),
-    description: String(i[`description_${locale}`] ?? i.description_en),
+    name: String(i.name),
+    description: String(i.description),
     platform: i.platform ?? '',
-    logoUrl: i.logo && typeof i.logo === 'object' ? i.logo.url ?? undefined : undefined,
+    logoUrl: i.logo && typeof i.logo === 'object' ? (i.logo.url ?? undefined) : undefined,
     logoAlt: i.logo && typeof i.logo === 'object' ? i.logo.alt : undefined,
   }))
 

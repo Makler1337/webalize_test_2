@@ -1,7 +1,7 @@
-import Link from 'next/link'
 import { getIntegrations } from '@/lib/payload'
 import { getDictionary } from '@/i18n/dictionaries'
 import type { Locale } from '@/i18n/config'
+import { IntegrationsFilter } from '@/components/IntegrationsFilter'
 
 export default async function IntegrationsPage({
   params,
@@ -10,47 +10,28 @@ export default async function IntegrationsPage({
 }) {
   const { locale } = await params
   const dict = getDictionary(locale)
-  const integrations = await getIntegrations()
+  const integrations = await getIntegrations(locale)
 
-  // Group integrations by category
-  const grouped = integrations.reduce(
-    (acc, integration) => {
-      const category = integration.category || 'General'
-      if (!acc[category]) acc[category] = []
-      acc[category].push(integration)
-      return acc
-    },
-    {} as Record<string, typeof integrations>,
-  )
+  const missingTranslation = dict.common.missingTranslation
+
+  const mapped = integrations.map((integration) => ({
+    id: integration.id,
+    name: integration.name ?? missingTranslation,
+    description: integration.description ?? missingTranslation,
+    platform: integration.platform,
+    logoUrl:
+      integration.logo && typeof integration.logo === 'object'
+        ? (integration.logo.url ?? undefined)
+        : undefined,
+    logoAlt:
+      integration.logo && typeof integration.logo === 'object' ? integration.logo.alt : undefined,
+  }))
 
   return (
     <div style={{ padding: '32px' }}>
-      <h1>{dict.integrations.title}</h1>
-      <p>{dict.integrations.subtitle}</p>
-      {Object.keys(grouped).length === 0 && (
-        <p>No integrations yet. Create some in the <Link href="/admin">admin panel</Link>.</p>
-      )}
-      {Object.entries(grouped).map(([category, items]) => (
-        <div key={category} style={{ marginBottom: '32px' }}>
-          <h2>{category}</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px' }}>
-            {items.map((integration) => (
-              <div key={integration.id} style={{ padding: '16px', border: '1px solid #ddd' }}>
-                {integration.logo && typeof integration.logo === 'object' && (
-                  <p>[Logo: {integration.logo.alt}]</p>
-                )}
-                <h3>{String(integration[`name_${locale}`] ?? integration.name_en)}</h3>
-                <p>{String(integration[`description_${locale}`] ?? integration.description_en)}</p>
-                {integration.link && (
-                  <a href={integration.link} target="_blank" rel="noopener noreferrer">
-                    Learn more →
-                  </a>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
+      <h1 style={{ textAlign: 'center' }}>{dict.integrations.title}</h1>
+      <p style={{ textAlign: 'center' }}>{dict.integrations.subtitle}</p>
+      <IntegrationsFilter integrations={mapped} />
     </div>
   )
 }

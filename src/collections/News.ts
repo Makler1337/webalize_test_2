@@ -3,7 +3,7 @@ import type { CollectionConfig } from 'payload'
 export const News: CollectionConfig = {
   slug: 'news',
   admin: {
-    useAsTitle: 'title_en',
+    useAsTitle: 'title',
   },
   access: {
     read: () => true,
@@ -39,28 +39,11 @@ export const News: CollectionConfig = {
       name: 'publishedDate',
       type: 'date',
       required: true,
+      defaultValue: () => new Date().toISOString(),
       admin: { position: 'sidebar' },
     },
-    {
-      type: 'tabs',
-      tabs: [
-        {
-          label: 'English',
-          fields: [
-            { name: 'title_en', label: 'Title (EN)', type: 'text', required: true },
-            { name: 'description_en', label: 'Description (EN)', type: 'textarea', required: true },
-            { name: 'content_en', label: 'Content (EN)', type: 'richText', required: true },
-          ],
-        },
-        {
-          label: 'German',
-          fields: [
-            { name: 'title_de', label: 'Title (DE)', type: 'text', required: true },
-            { name: 'description_de', label: 'Description (DE)', type: 'textarea', required: true },
-            { name: 'content_de', label: 'Content (DE)', type: 'richText', required: true },
-          ],
-        },
-      ],
-    },
+    { name: 'title', type: 'text', required: true, localized: true },
+    { name: 'description', type: 'textarea', required: true, localized: true },
+    { name: 'content', type: 'richText', required: true, localized: true },
   ],
 }
